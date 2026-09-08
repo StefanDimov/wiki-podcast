@@ -18,7 +18,6 @@ async function main() {
   const startTime = Date.now();
   console.log("Starting audio generation...");
   console.log(`Input: ${INPUT_FILE_PATH} Output: ${OUTPUT_FILE_PATH}`);
-  console.log(`Started at: ${new Date(startTime).toISOString()}`);
 
   const inputText = fs.readFileSync(INPUT_FILE_PATH, "utf-8");
   console.log(`Input loaded: ${inputText.length} chars`);
@@ -42,7 +41,7 @@ async function main() {
   console.log("Audio stream write completed.");
 
   const durationMs = Date.now() - startTime;
-  console.log(`Done in ${(durationMs / 1000).toFixed(2)}s (${durationMs}ms).`);
+  console.log(`Done in ${(durationMs / 1000 / 60).toFixed(2)} min.`);
   console.log(`Saved to: ${OUTPUT_FILE_PATH}`);
 }
 
