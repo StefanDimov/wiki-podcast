@@ -9,4 +9,4 @@ The information should be sourced from wikipedia pages on the subject or other w
 
 The script should provide a foundational overview of the subject.
 
-Write the script in a text file in the current folder.
+Write the script in a text file in the output folder with a name corresponding to the subject.
