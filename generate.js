@@ -28,6 +28,7 @@ async function main() {
     voice: "af_bella",
     input: inputText,
     response_format: "mp3",
+    speed: 0.8
   });
 
   const writeStream = fs.createWriteStream(OUTPUT_FILE_PATH);
