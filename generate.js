@@ -1,8 +1,13 @@
 import OpenAI from "openai";
 import fs from "fs";
 
-const INPUT_FILE_PATH = "input.txt";
-const OUTPUT_FILE_PATH = "output.mp3";
+const [INPUT_FILE_PATH, OUTPUT_FILE_PATH] = process.argv.slice(2);
+
+if (!INPUT_FILE_PATH || !OUTPUT_FILE_PATH) {
+  console.error("Usage: node generate.js <input-file> <output-file>");
+  console.error("Example: node generate.js input.txt output/output.mp3");
+  process.exit(1);
+}
 
 const openai = new OpenAI({
   baseURL: "http://localhost:8880/v1",
@@ -17,7 +22,6 @@ async function main() {
     voice: "af_bella",
     input: inputText,
     response_format: "mp3",
-    stream: true,
   });
 
   const writeStream = fs.createWriteStream(OUTPUT_FILE_PATH);
