@@ -12,7 +12,7 @@ docker container start kokoro
 
 # Generate podcast
 echo "Generating podcast for subject: $1"
-opencode run "/create-podcast $1"
+claude -p "/create-podcast $1"
 
 # Stop kokoro container
 echo "Stopping kokoro container..."
