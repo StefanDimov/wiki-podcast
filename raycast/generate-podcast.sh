@@ -9,7 +9,7 @@
 # Optional parameters:
 # @raycast.icon 🎙️
 # @raycast.packageName Wiki Podcast
-# @raycast.description Generate a podcast on a subject and copy it to iCloud
+# @raycast.description Generate a podcast on a subject and move it to your podcast folder
 
 # Raycast doesn't load your shell profile, so make sure Homebrew tools and
 # the Claude Code CLI (native installer puts it in ~/.local/bin) are found

@@ -66,6 +66,7 @@ echo $$ > "$LOCK/pid"
 trap 'rm -rf "$LOCK"' EXIT
 
 # Write podcast script
+mkdir -p output
 echo "Writing podcast script for subject: $1"
 claude -p "/write-podcast-script $1"
 
@@ -73,9 +74,9 @@ claude -p "/write-podcast-script $1"
 echo "Start kokoro container..."
 docker container start "$KOKORO_CONTAINER" || { echo "Failed to start kokoro container."; exit 1; }
 
-# Wait for the Kokoro API to be ready
+# Wait for the Kokoro API to be ready (the first start can take a few minutes)
 echo "Waiting for kokoro to be ready..."
-for _ in $(seq 1 60); do
+for _ in $(seq 1 150); do
     curl -sf "$KOKORO_URL/health" > /dev/null && break
     sleep 2
 done

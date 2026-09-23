@@ -20,7 +20,7 @@ The script expects that:
 - the API is exposed on port `8880` (override with `KOKORO_PORT` in `.env`)
 - the Docker VM and container have >4g memory
 
-The script starts and stops the container itself, so you can leave it stopped after creating it.
+The script starts and stops the container itself, so you can leave it stopped after creating it. The first start can take a few minutes while the model loads; the script waits up to 5 minutes for it to be ready.
 
 Only one podcast is generated at a time. If one is already in progress, a new run waits for it to finish. A lock left behind by a crashed run is cleaned up automatically.
 
