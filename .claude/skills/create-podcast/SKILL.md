@@ -16,5 +16,3 @@ Write the script in a text file in the output folder with a name corresponding t
 ## Generate Podcast Audio File
 
 Run the generate.js script with the script text file as input to create the podcast audio file. Name the file something corresponding to the subject. The generate script takes around 5 min to finish.
-
-Delete the script text file after generating the podcast audio file.

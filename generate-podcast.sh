@@ -22,4 +22,8 @@ docker container stop kokoro
 echo "Copying podcast to iCloud..."
 ./copy-to-icloud.sh
 
+# Delete podcast scripts
+echo "Deleting podcast scripts..."
+./delete-podcasts-scripts.sh
+
 echo "🔉 Enjoy your podcast!"
