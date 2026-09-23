@@ -39,6 +39,22 @@ if ! docker container inspect kokoro > /dev/null 2>&1; then
     exit 1
 fi
 
+# Wait until no other podcast is being generated (one run at a time)
+LOCK=".generating.lock"
+until mkdir "$LOCK" 2>/dev/null; do
+    pid=$(cat "$LOCK/pid" 2>/dev/null)
+    if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+        echo "Removing stale lock from process $pid"
+        rm -rf "$LOCK"
+        continue
+    fi
+    [ -n "$waiting" ] || echo "Another podcast is being generated, waiting..."
+    waiting=1
+    sleep 10
+done
+echo $$ > "$LOCK/pid"
+trap 'rm -rf "$LOCK"' EXIT
+
 # Write podcast script
 echo "Writing podcast script for subject: $1"
 claude -p "/write-podcast-script $1"

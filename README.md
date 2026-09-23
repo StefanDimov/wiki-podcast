@@ -16,6 +16,8 @@ The script expects that:
 
 The script starts and stops the container itself, so you can leave it stopped after creating it.
 
+Only one podcast is generated at a time. If one is already in progress, a new run waits for it to finish. A lock left behind by a crashed run is cleaned up automatically.
+
 ### Settings
 
 Copy `.env.example` to `.env` and set `PODCAST_DESTINATION` to the folder the generated podcasts should be moved to (e.g. your iCloud Podcasts folder).
