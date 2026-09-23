@@ -18,10 +18,11 @@ cd "$(dirname "$0")/.." || exit 1
 
 # Run in the background so Raycast doesn't block; notify when done
 nohup bash -c '
-    if ./generate-podcast.sh "$1" > output/raycast.log 2>&1; then
+    echo "=== $(date "+%Y-%m-%d %H:%M:%S") — $1 ===" >> raycast.log
+    if ./generate-podcast.sh "$1" >> raycast.log 2>&1; then
         osascript -e "display notification \"Podcast on $1 is ready\" with title \"🔉 Wiki Podcast\""
     else
-        osascript -e "display notification \"Failed — see output/raycast.log\" with title \"Wiki Podcast\""
+        osascript -e "display notification \"Failed — see raycast.log\" with title \"Wiki Podcast\""
     fi
 ' _ "$1" > /dev/null 2>&1 &
 

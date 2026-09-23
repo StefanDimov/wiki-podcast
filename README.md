@@ -29,4 +29,4 @@ Usage:
 1. Open Raycast and search for **Generate Podcast**
 2. Press Tab, type the subject and press Enter
 
-The podcast is generated in the background and a macOS notification is shown when it's done. Output is logged to `output/raycast.log`.
+The podcast is generated in the background and a macOS notification is shown when it's done. Output is logged to `raycast.log`.
