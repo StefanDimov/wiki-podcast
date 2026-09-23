@@ -2,16 +2,21 @@
 
 Generate podcasts on different subjects.
 
-The project uses:
-
-- https://github.com/remsky/Kokoro-FastAPI (in a Docker container named `kokoro`)
-- `curl` and `jq` (both ship with macOS)
-
-Note:
-
-- Docker VM and container should have >4g memory
-
 ## Setup
+
+### Kokoro container
+
+Create the Kokoro container by following the Docker instructions on the [Kokoro-FastAPI GitHub page](https://github.com/remsky/Kokoro-FastAPI). Pick the CPU or GPU image that suits your machine.
+
+The script expects that:
+
+- the container is named `kokoro`
+- the API is exposed on port `8880`
+- the Docker VM and container have >4g memory
+
+The script starts and stops the container itself, so you can leave it stopped after creating it.
+
+### Settings
 
 Copy `.env.example` to `.env` and set `PODCAST_DESTINATION` to the folder the generated podcasts should be moved to (e.g. your iCloud Podcasts folder).
 
