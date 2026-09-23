@@ -18,12 +18,12 @@ claude -p "/create-podcast $1"
 echo "Stopping kokoro container..."
 docker container stop kokoro
 
-# Copy to icloud
+# Move new podcast audio files to iCloud Podcasts folder
 echo "Copying podcast to iCloud..."
-./copy-to-icloud.sh
+mv ./output/*.mp3 /Users/stefandimov/Library/Mobile\ Documents/com\~apple\~CloudDocs/Podcasts
 
-# Delete podcast scripts
+# Delete leftover podcast script text files from the output folder
 echo "Deleting podcast scripts..."
-./delete-podcasts-scripts.sh
+rm -f ./output/*.txt
 
 echo "🔉 Enjoy your podcast!"
