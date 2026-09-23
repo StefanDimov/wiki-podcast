@@ -4,8 +4,8 @@ Generate podcasts on different subjects.
 
 The project uses:
 
-- https://github.com/remsky/Kokoro-FastAPI
-- https://www.npmjs.com/package/openai
+- https://github.com/remsky/Kokoro-FastAPI (in a Docker container named `kokoro`)
+- `curl` and `jq` (both ship with macOS)
 
 Note:
 

@@ -13,6 +13,4 @@ The script should provide a foundational overview of the subject.
 
 Write the script in a text file in the output folder with a name corresponding to the subject.
 
-## Generate Podcast Audio File
-
-Run the generate.js script with the script text file as input to create the podcast audio file. Name the file something corresponding to the subject. The generate script takes around 5 min to finish.
+Only write the script. Do not generate the audio file; that is done separately.

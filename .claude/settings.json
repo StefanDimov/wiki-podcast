@@ -4,11 +4,7 @@
       "WebFetch(domain:en.wikipedia.org)",
       "WebSearch",
       "Edit(output/**)",
-      "Bash(node generate.js:*)",
       "Bash(rm output/*)"
     ]
-  },
-  "env": {
-    "BASH_DEFAULT_TIMEOUT_MS": "600000"
   }
 }
