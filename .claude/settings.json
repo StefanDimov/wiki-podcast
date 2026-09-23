@@ -3,7 +3,7 @@
     "allow": [
       "WebFetch(domain:en.wikipedia.org)",
       "WebSearch",
-      "Write(output/**)",
+      "Edit(output/**)",
       "Bash(node generate.js:*)",
       "Bash(rm output/*)"
     ]
