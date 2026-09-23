@@ -25,7 +25,7 @@ fi
 
 # Write podcast script
 echo "Writing podcast script for subject: $1"
-claude -p "/create-podcast $1"
+claude -p "/write-podcast-script $1"
 
 # Run kokoro container
 echo "Start kokoro container..."
