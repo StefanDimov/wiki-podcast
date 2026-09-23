@@ -11,6 +11,10 @@ Note:
 
 - Docker VM and container should have >4g memory
 
+## Setup
+
+Copy `.env.example` to `.env` and set `PODCAST_DESTINATION` to the folder the generated podcasts should be moved to (e.g. your iCloud Podcasts folder).
+
 ## Raycast
 
 You can trigger podcast generation from [Raycast](https://www.raycast.com) using the script command in `raycast/`.
