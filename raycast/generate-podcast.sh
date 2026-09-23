@@ -11,8 +11,9 @@
 # @raycast.packageName Wiki Podcast
 # @raycast.description Generate a podcast on a subject and copy it to iCloud
 
-# Raycast doesn't load your shell profile, so make sure Homebrew tools are found
-export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+# Raycast doesn't load your shell profile, so make sure Homebrew tools and
+# the Claude Code CLI (native installer puts it in ~/.local/bin) are found
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 cd "$(dirname "$0")/.." || exit 1
 

@@ -23,19 +23,29 @@ if [ ! -d "$PODCAST_DESTINATION" ]; then
     exit 1
 fi
 
-# Check that Docker and the kokoro container are available
-if ! command -v docker > /dev/null; then
-    echo "docker is not installed."
-    exit 1
-fi
+# Kokoro settings (override in .env)
+KOKORO_CONTAINER="${KOKORO_CONTAINER:-kokoro}"
+KOKORO_PORT="${KOKORO_PORT:-8880}"
+KOKORO_VOICE="${KOKORO_VOICE:-af_bella}"
+KOKORO_SPEED="${KOKORO_SPEED:-0.85}"
+KOKORO_URL="http://localhost:$KOKORO_PORT"
 
+# Check that the required tools are installed
+for tool in claude jq curl docker; do
+    if ! command -v "$tool" > /dev/null; then
+        echo "$tool is not installed. See README for prerequisites."
+        exit 1
+    fi
+done
+
+# Check that Docker and the kokoro container are available
 if ! docker info > /dev/null 2>&1; then
     echo "Docker is not running. Start Docker Desktop and try again."
     exit 1
 fi
 
-if ! docker container inspect kokoro > /dev/null 2>&1; then
-    echo "Docker container 'kokoro' does not exist. See README for setup."
+if ! docker container inspect "$KOKORO_CONTAINER" > /dev/null 2>&1; then
+    echo "Docker container '$KOKORO_CONTAINER' does not exist. See README for setup."
     exit 1
 fi
 
@@ -61,36 +71,37 @@ claude -p "/write-podcast-script $1"
 
 # Run kokoro container
 echo "Start kokoro container..."
-docker container start kokoro || { echo "Failed to start kokoro container."; exit 1; }
+docker container start "$KOKORO_CONTAINER" || { echo "Failed to start kokoro container."; exit 1; }
 
 # Wait for the Kokoro API to be ready
 echo "Waiting for kokoro to be ready..."
 for _ in $(seq 1 60); do
-    curl -sf http://localhost:8880/health > /dev/null && break
+    curl -sf "$KOKORO_URL/health" > /dev/null && break
     sleep 2
 done
 
-if ! curl -sf http://localhost:8880/health > /dev/null; then
+if ! curl -sf "$KOKORO_URL/health" > /dev/null; then
     echo "Kokoro did not become ready in time."
-    docker container stop kokoro
+    docker container stop "$KOKORO_CONTAINER"
     exit 1
 fi
 
 # Generate podcast audio from each script via the Kokoro API
 for script in ./output/*.txt; do
-    [ -e "$script" ] || { echo "No podcast script was written."; docker container stop kokoro; exit 1; }
+    [ -e "$script" ] || { echo "No podcast script was written."; docker container stop "$KOKORO_CONTAINER"; exit 1; }
     audio="${script%.txt}.mp3"
     echo "Generating audio: $script -> $audio (takes around 5 min)"
-    jq -Rs '{model: "kokoro", voice: "af_bella", input: ., response_format: "mp3", speed: 0.85}' "$script" |
-        curl -sS --fail -X POST http://localhost:8880/v1/audio/speech \
+    jq -Rs --arg voice "$KOKORO_VOICE" --argjson speed "$KOKORO_SPEED" \
+        '{model: "kokoro", voice: $voice, input: ., response_format: "mp3", speed: $speed}' "$script" |
+        curl -sS --fail -X POST "$KOKORO_URL/v1/audio/speech" \
             -H "Content-Type: application/json" \
             --data-binary @- \
-            --output "$audio" || { echo "Audio generation failed."; docker container stop kokoro; exit 1; }
+            --output "$audio" || { echo "Audio generation failed."; docker container stop "$KOKORO_CONTAINER"; exit 1; }
 done
 
 # Stop kokoro container
 echo "Stopping kokoro container..."
-docker container stop kokoro
+docker container stop "$KOKORO_CONTAINER"
 
 # Move new podcast audio files to the destination folder
 echo "Moving podcast to $PODCAST_DESTINATION..."
